@@ -236,7 +236,8 @@
 			$queue_timeout_data = implode($action_array);
 
 		//add the recording path if needed
-			if (file_exists($_SESSION['switch']['recordings']['dir'].'/'.$_SESSION['domain_name'].'/'.$queue_greeting)) {
+			if (file_exists($_SESSION['switch']['recordings']['dir'].'/'.$_SESSION['domain_name'].'/'.$queue_greeting)) 
+				
 				$queue_greeting_path = $_SESSION['switch']['recordings']['dir'].'/'.$_SESSION['domain_name'].'/'.$queue_greeting;
 			}
 			else {
@@ -258,6 +259,7 @@
 			if (strlen($queue_cc_exit_keys) > 0) {
 				$dialplan_xml .= "		<action application=\"set\" data=\"cc_exit_keys=".$queue_cc_exit_keys."\"/>\n";
 			}
+		        $dialplan_xml .= "              <action application=\"set\" data=\"result=$\{luarun(callcenter-announce-position.lua $\{uuid\} ".$call_center_queue_uuid." 20000)}\"/>\n";   
 			$dialplan_xml .= "		<action application=\"callcenter\" data=\"".$call_center_queue_uuid."\"/>\n";
 			$dialplan_xml .= "		<action application=\"".$queue_timeout_app."\" data=\"".$queue_timeout_data."\"/>\n";
 			$dialplan_xml .= "	</condition>\n";
